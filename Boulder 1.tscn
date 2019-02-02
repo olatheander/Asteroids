@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Boulder 1.gd" type="Script" id=1]
+[ext_resource path="res://Boulder 1.png" type="Texture" id=2]
+
+[node name="Boulder 1" type="KinematicBody2D"]
+
+input_pickable = false
+collision_layer = 1
+collision_mask = 1
+collision/safe_margin = 0.08
+script = ExtResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="." index="0"]
+
+texture = ExtResource( 2 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." index="1"]
+
+build_mode = 0
+polygon = PoolVector2Array( -60.7776, -170.751, 13.6036, -155.787, 48.8137, -94.1692, 101.629, -78.3247, 108.231, 0.89798, 71.2601, 80.1206, -29.5287, 89.3633, -91.5864, 32.1469, -97.7482, -14.0663, -145.722, -29.4707, -153.204, -78.7648, -146.602, -114.855, -129.877, -135.101 )
+
+

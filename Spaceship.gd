@@ -21,9 +21,9 @@ func _physics_process(delta):
     var velocity = Vector2() # The player's movement vector.
     var rotation_dir = 0
     if Input.is_action_pressed("ui_right"):
-        rotation_dir -= 1
-    if Input.is_action_pressed("ui_left"):
         rotation_dir += 1
+    if Input.is_action_pressed("ui_left"):
+        rotation_dir -= 1
     if Input.is_action_pressed("ui_down"):
         speed -= 10
     if Input.is_action_pressed("ui_up"):
@@ -31,18 +31,18 @@ func _physics_process(delta):
     if Input.is_key_pressed(KEY_SPACE):
         _fire_bullet()
 
-    speed = clamp(speed, 0, 600)
+    speed = clamp(speed, 0, 400)
     velocity = Vector2(speed, 0).rotated(rotation) * delta
     rotation += rotation_dir * rotation_speed * delta
     var collision = move_and_collide(velocity)
     if collision:
-        _ship_collision()
+        _ship_collision(collision)
         
     # Keep ship within screen boundaries.
     position.x = clamp(position.x, 0, screensize.x)
     position.y = clamp(position.y, 0, screensize.y)
 
-func _ship_collision():
+func _ship_collision(collision):
     pass
 
 func _fire_bullet():

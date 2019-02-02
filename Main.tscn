@@ -1,7 +1,15 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Main.gd" type="Script" id=1]
 [ext_resource path="res://Spaceship.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Stars.png" type="Texture" id=3]
+
+[sub_resource type="Curve2D" id=1]
+
+bake_interval = 5.0
+_data = {
+"points": PoolVector2Array(  )
+}
 
 [node name="Main" type="Node2D" index="0"]
 
@@ -13,5 +21,34 @@ __meta__ = {
 [node name="StartPosition" type="Position2D" parent="." index="0"]
 
 [node name="Spaceship" parent="." index="1" instance=ExtResource( 2 )]
+
+[node name="BoulderPath" type="Path2D" parent="." index="2"]
+
+self_modulate = Color( 0.5, 0.6, 1, 0.7 )
+curve = SubResource( 1 )
+
+[node name="BoulderSpawnLocation" type="PathFollow2D" parent="BoulderPath" index="0"]
+
+offset = 0.0
+h_offset = 0.0
+v_offset = 0.0
+rotate = true
+cubic_interp = true
+loop = true
+lookahead = 4.0
+
+[node name="BoulderTimer" type="Timer" parent="." index="3"]
+
+process_mode = 1
+wait_time = 0.75
+one_shot = false
+autostart = true
+
+[node name="Stars" type="Sprite" parent="." index="4"]
+
+texture = ExtResource( 3 )
+_sections_unfolded = [ "Transform" ]
+
+[connection signal="timeout" from="BoulderTimer" to="." method="_on_BoulderTimer_timeout"]
 
 
