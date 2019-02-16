@@ -8,7 +8,7 @@
 custom_solver_bias = 0.0
 extents = Vector2( 24, 17.5445 )
 
-[node name="Spaceship" type="KinematicBody2D"]
+[node name="Spaceship" type="KinematicBody2D" index="0"]
 
 position = Vector2( 474, 277 )
 input_pickable = false
@@ -16,18 +16,21 @@ collision_layer = 1
 collision_mask = 1
 collision/safe_margin = 0.08
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
 speed = 0
 rotation_speed = 2.5
 
 [node name="Sprite" type="Sprite" parent="." index="0"]
 
 texture = ExtResource( 2 )
+_sections_unfolded = [ "Offset", "Transform" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." index="1"]
 
-position = Vector2( 0, 0.0769043 )
-scale = Vector2( 1, 1.25834 )
 shape = SubResource( 1 )
 disabled = true
+_sections_unfolded = [ "Transform" ]
 
 

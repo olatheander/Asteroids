@@ -1,23 +1,49 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Boulder 1.gd" type="Script" id=1]
 [ext_resource path="res://Boulder 1.png" type="Texture" id=2]
+[ext_resource path="res://Boulder 2.png" type="Texture" id=3]
+[ext_resource path="res://Boulder 3.png" type="Texture" id=4]
+[ext_resource path="res://Boulder 4.png" type="Texture" id=5]
+
+[sub_resource type="SpriteFrames" id=1]
+
+animations = [ {
+"frames": [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="CircleShape2D" id=2]
+
+custom_solver_bias = 0.0
+radius = 137.343
 
 [node name="Boulder 1" type="KinematicBody2D"]
 
 input_pickable = false
 collision_layer = 1
-collision_mask = 1
+collision_mask = 0
 collision/safe_margin = 0.08
 script = ExtResource( 1 )
+_sections_unfolded = [ "Collision" ]
+__meta__ = {
+"_edit_group_": true
+}
+speed = 100
+velocity = Vector2( 0, 0 )
+spriteIndex = 2
 
-[node name="Sprite" type="Sprite" parent="." index="0"]
+[node name="Sprite" type="AnimatedSprite" parent="." index="0"]
 
-texture = ExtResource( 2 )
+frames = SubResource( 1 )
+animation = "default"
+_sections_unfolded = [ "Transform" ]
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." index="1"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="1"]
 
-build_mode = 0
-polygon = PoolVector2Array( -60.7776, -170.751, 13.6036, -155.787, 48.8137, -94.1692, 101.629, -78.3247, 108.231, 0.89798, 71.2601, 80.1206, -29.5287, 89.3633, -91.5864, 32.1469, -97.7482, -14.0663, -145.722, -29.4707, -153.204, -78.7648, -146.602, -114.855, -129.877, -135.101 )
+shape = SubResource( 2 )
+_sections_unfolded = [ "Transform" ]
 
 

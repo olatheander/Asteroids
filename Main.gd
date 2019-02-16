@@ -16,6 +16,7 @@ func _ready():
     boulderCurve.add_point(Vector2(0, 0))
     
     $BoulderPath.curve = boulderCurve
+    pass
 
 #func _process(delta):
 #    # Called every frame. Delta is time since last frame.
@@ -37,13 +38,14 @@ func _on_BoulderTimer_timeout():
         var boulder = BOULDER.instance()
         boulder.connect("boulder_removed", self, "_on_Boulder_boulder_removed")
         add_child(boulder)
-        # Set the boulders's direction perpendicular to the path direction.
-        var direction = $BoulderPath/BoulderSpawnLocation.rotation + PI / 2
         # Set the boulder's position to a random location.
         boulder.position = $BoulderPath/BoulderSpawnLocation.position
+        # Set the boulders's direction perpendicular to the path direction.
+        var direction = $BoulderPath/BoulderSpawnLocation.rotation + PI / 2
         # Add some randomness to the direction.
         direction += rand_range(-PI / 4, PI / 4)
         boulder.rotation = direction
+        boulder.velocity = Vector2(boulder.speed, 0).rotated(direction)
         
         currentSpawned += 1
 
