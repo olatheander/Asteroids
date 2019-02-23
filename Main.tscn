@@ -13,6 +13,7 @@ _data = {
 
 [node name="Main" type="Node2D" index="0"]
 
+position = Vector2( 1, 0 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_group_": true
