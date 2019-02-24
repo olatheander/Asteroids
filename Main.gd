@@ -1,45 +1,67 @@
 extends Node2D
 
-const MAX_SPAWNED = 5
-const BOULDER1 = preload("res://Boulder 1.tscn")
-const BOULDER2 = preload("res://Boulder 2.tscn")
-const BOULDER3 = preload("res://Boulder 3.tscn")
-const BOULDER4 = preload("res://Boulder 4.tscn")
+const MaxSpawned = 5
+const Boulder1 = preload("res://Boulder 1.tscn")
+const Boulder2 = preload("res://Boulder 2.tscn")
+const Boulder3 = preload("res://Boulder 3.tscn")
+const Boulder4 = preload("res://Boulder 4.tscn")
+const Stars = preload("res://Stars.tscn")
 
 var score = 0
-var currentSpawned = 0
+var current_spawned = 0
 
 func _ready():
     # Create the spawn curve for the boulders.
-    var boulderCurve = Curve2D.new()
-    var screensize = get_viewport_rect().size
-    boulderCurve.add_point(Vector2(0, 0))
-    boulderCurve.add_point(Vector2(screensize.x, 0))
-    boulderCurve.add_point(Vector2(screensize.x, screensize.y))
-    boulderCurve.add_point(Vector2(0, screensize.y))
-    boulderCurve.add_point(Vector2(0, 0))
+    var boulder_curve = Curve2D.new()
+    var screen_size = get_viewport_rect().size
+    get_viewport().connect("size_changed", self, "_on_viewport_size_changed")
+    boulder_curve.add_point(Vector2(0, 0))
+    boulder_curve.add_point(Vector2(screen_size.x, 0))
+    boulder_curve.add_point(Vector2(screen_size.x, screen_size.y))
+    boulder_curve.add_point(Vector2(0, screen_size.y))
+    boulder_curve.add_point(Vector2(0, 0))
     
-    $BoulderPath.curve = boulderCurve
-    pass
+    $BoulderPath.curve = boulder_curve
+    generate_background()
 
-#func _process(delta):
-#    # Called every frame. Delta is time since last frame.
-#    # Update game logic here.
-#    pass
+func _on_viewport_size_changed():
+    for s in get_tree().get_nodes_in_group("stars"):
+        s.queue_free()
+    generate_background()
+
+func generate_background():
+    var screen_size = get_viewport_rect().size
+    var stars = Stars.instance()
+    var texture_size = stars.get_texture().get_size()
+    var star_position = Vector2(0, 0)
+
+    # Fill the background with stars.
+    while true:
+        stars.position = star_position
+        add_child(stars)
+        star_position.x += texture_size.x
+        if star_position.x >= screen_size.x:
+            star_position.x = 0
+            star_position.y += texture_size.y
+        
+        if star_position.y >= screen_size.y:
+            break 
+            
+        stars = Stars.instance()
 
 func new_game():
     score = 0
-    currentSpawned = 0
+    current_spawned = 0
 
 func game_over():
     pass
 
 func _on_BoulderTimer_timeout():
-    if currentSpawned < MAX_SPAWNED:
+    if current_spawned < MaxSpawned:
         # Choose a random location on Path2D.
         $BoulderPath/BoulderSpawnLocation.set_offset(randi())
         # Create a Boulder instance and add it to the scene.
-        var boulder = BOULDER1.instance()
+        var boulder = Boulder1.instance()
         boulder.connect("boulder_removed", self, "_on_Boulder_boulder_removed")
         boulder.connect("boulder_hit", self, "_on_Boulder_boulder_hit")
         add_child(boulder)
@@ -52,36 +74,30 @@ func _on_BoulderTimer_timeout():
         boulder.rotation = direction
         boulder.velocity = Vector2(boulder.speed, 0).rotated(direction)
         
-        currentSpawned += 1
+        current_spawned += 1
 
 func _on_Boulder_boulder_removed():
-    currentSpawned -= 1
+    current_spawned -= 1
   
 func _on_Boulder_boulder_hit(boulder, type):
     var velocity = boulder.velocity
-    var newBoulder
+    var new_boulder
     for x in [-1, 0, 1]:
         match type:
             1:
-                newBoulder = BOULDER2.instance()
-                newBoulder.position = boulder.position
-                newBoulder.velocity = boulder.velocity.rotated(x * PI/4)
-                newBoulder.connect("boulder_hit", self, "_on_Boulder_boulder_hit")
-                add_child(newBoulder)
+                new_boulder = Boulder2.instance()
+                _add_boulder(new_boulder, boulder, x)
             2:
-                newBoulder = BOULDER3.instance()
-                newBoulder.position = boulder.position
-                newBoulder.velocity = boulder.velocity.rotated(x * PI/4)
-                newBoulder.connect("boulder_hit", self, "_on_Boulder_boulder_hit")
-                add_child(newBoulder)
+                new_boulder = Boulder3.instance()
+                _add_boulder(new_boulder, boulder, x)
             3:
-                newBoulder = BOULDER4.instance()
-                newBoulder.position = boulder.position
-                newBoulder.velocity = boulder.velocity.rotated(x * PI/4)
-                newBoulder.connect("boulder_hit", self, "_on_Boulder_boulder_hit")
-                add_child(newBoulder)
+                new_boulder = Boulder4.instance()
+                _add_boulder(new_boulder, boulder, x)
             4:
                 pass
-             
 
-
+func _add_boulder(new_boulder, boulder, x):
+    new_boulder.position = boulder.position
+    new_boulder.velocity = boulder.velocity.rotated(x * PI/4)
+    new_boulder.connect("boulder_hit", self, "_on_Boulder_boulder_hit")
+    add_child(new_boulder)

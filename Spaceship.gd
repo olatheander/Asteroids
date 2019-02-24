@@ -2,24 +2,25 @@ extends KinematicBody2D
 
 signal hit
 
-const BULLET = preload("res://Bullet.tscn")
-const RELOAD_TIME = 0.1
+const Bullet = preload("res://Bullet.tscn")
+const reload_time = 0.1
 
 export (int) var speed = 0 # How fast the player will move (pixels/sec).
 export (float) var rotation_speed = 2.5
-var screensize  # Size of the game window.
+var screen_size  # Size of the game window.
 var reloading = 0.0
 
 func _ready():
-    screensize = get_viewport_rect().size
-    position.x = screensize.x / 2
-    position.y = screensize.y / 2
+    screen_size = get_viewport_rect().size
+    position.x = screen_size.x / 2
+    position.y = screen_size.y / 2
 
 func _physics_process(delta):
     reloading -= delta
     
     var velocity = Vector2() # The player's movement vector.
     var rotation_dir = 0
+    $Sprite.frame = 0
     if Input.is_action_pressed("ui_right"):
         rotation_dir += 1
     if Input.is_action_pressed("ui_left"):
@@ -27,6 +28,7 @@ func _physics_process(delta):
     if Input.is_action_pressed("ui_down"):
         speed -= 10
     if Input.is_action_pressed("ui_up"):
+        $Sprite.frame = 1
         speed += 10
     if Input.is_key_pressed(KEY_SPACE):
         _fire_bullet()
@@ -39,16 +41,17 @@ func _physics_process(delta):
         _ship_collision(collision)
         
     # Keep ship within screen boundaries.
-    position.x = clamp(position.x, 0, screensize.x)
-    position.y = clamp(position.y, 0, screensize.y)
+    position.x = clamp(position.x, 0, screen_size.x)
+    position.y = clamp(position.y, 0, screen_size.y)
 
 func _ship_collision(collision):
-    pass
+    print("Spaceship crashed!")
+    queue_free()
 
 func _fire_bullet():
     if reloading <= 0.0:
-        reloading = RELOAD_TIME
-        var bullet = BULLET.instance()
+        reloading = reload_time
+        var bullet = Bullet.instance()
         bullet.show()
         bullet.global_position = global_position
         bullet.rotation = rotation

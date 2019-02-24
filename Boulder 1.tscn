@@ -11,7 +11,7 @@ radius = 137.343
 [node name="Boulder 1" type="KinematicBody2D"]
 
 input_pickable = false
-collision_layer = 1
+collision_layer = 3
 collision_mask = 0
 collision/safe_margin = 0.08
 script = ExtResource( 1 )

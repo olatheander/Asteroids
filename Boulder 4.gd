@@ -12,7 +12,7 @@ func _ready():
 func _physics_process(delta):
     move_and_collide(velocity * delta)
     _remove_when_offscreen()
-        
+
 func _remove_when_offscreen():
     var screen_size = get_viewport_rect().size
 
@@ -27,5 +27,6 @@ func _remove_rock():
     emit_signal("boulder_removed")
             
 func on_bullet_hit(bullet):
-    emit_signal("boulder_hit", self, 1)
+    emit_signal("boulder_hit", self, 4)
     _remove_rock()
+                    
