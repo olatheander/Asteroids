@@ -10,9 +10,14 @@ func _ready():
     pass
 
 func _physics_process(delta):
-    move_and_collide(velocity * delta)
     _remove_when_offscreen()
+    var collision = move_and_collide(velocity * delta)
+    if collision:
+        _boulder_collision(collision)
 
+func _boulder_collision(collision):
+    collision.collider.on_boulder_collision(self)
+    
 func _remove_when_offscreen():
     var screensize = get_viewport_rect().size
 

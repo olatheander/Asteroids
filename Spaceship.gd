@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-signal hit
+signal spaceship_crashed
 
 const Bullet = preload("res://Bullet.tscn")
 const reload_time = 0.1
@@ -36,16 +36,15 @@ func _physics_process(delta):
     speed = clamp(speed, 0, 400)
     velocity = Vector2(speed, 0).rotated(rotation) * delta
     rotation += rotation_dir * rotation_speed * delta
-    var collision = move_and_collide(velocity)
-    if collision:
-        _ship_collision(collision)
+    move_and_collide(velocity)
         
     # Keep ship within screen boundaries.
     position.x = clamp(position.x, 0, screen_size.x)
     position.y = clamp(position.y, 0, screen_size.y)
 
-func _ship_collision(collision):
+func on_boulder_collision(boulder):
     print("Spaceship crashed!")
+    emit_signal("spaceship_crashed", self, 1)
     queue_free()
 
 func _fire_bullet():
