@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/spaceship-trust.png-78cb36e2df026440a0cbba6e82c1bf23.stex"
+path="res://.import/Stars.png-610ec6431daf72ba4114079c611a336d.stex"
 
 [deps]
 
-source_file="res://spaceship-trust.png"
-dest_files=[ "res://.import/spaceship-trust.png-78cb36e2df026440a0cbba6e82c1bf23.stex" ]
+source_file="res://assets/art/Stars.png"
+dest_files=[ "res://.import/Stars.png-610ec6431daf72ba4114079c611a336d.stex" ]
 
 [params]
 

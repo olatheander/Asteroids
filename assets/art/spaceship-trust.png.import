@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/spaceship.png-a8aee2801e3b8c6d30c4bff2d748cbe1.stex"
+path="res://.import/spaceship-trust.png-a21030213820ef6a3c32597d0ca9f958.stex"
 
 [deps]
 
-source_file="res://spaceship.png"
-dest_files=[ "res://.import/spaceship.png-a8aee2801e3b8c6d30c4bff2d748cbe1.stex" ]
+source_file="res://assets/art/spaceship-trust.png"
+dest_files=[ "res://.import/spaceship-trust.png-a21030213820ef6a3c32597d0ca9f958.stex" ]
 
 [params]
 

@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Boulder 4.png-2768fa571a6fcb1719b5c9ee48590d79.stex"
+path="res://.import/Boulder 1.png-e2a33c5e7a7267cb0e02936c5f74a81c.stex"
 
 [deps]
 
-source_file="res://Boulder 4.png"
-dest_files=[ "res://.import/Boulder 4.png-2768fa571a6fcb1719b5c9ee48590d79.stex" ]
+source_file="res://assets/art/Boulder 1.png"
+dest_files=[ "res://.import/Boulder 1.png-e2a33c5e7a7267cb0e02936c5f74a81c.stex" ]
 
 [params]
 

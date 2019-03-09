@@ -7,7 +7,7 @@ export (int) var speed = 100
 export (Vector2) var velocity = Vector2()
 
 func _ready():
-    pass
+    add_to_group("boulders")
 
 func _physics_process(delta):
     _remove_when_offscreen()

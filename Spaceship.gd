@@ -14,6 +14,7 @@ func _ready():
     screen_size = get_viewport_rect().size
     position.x = screen_size.x / 2
     position.y = screen_size.y / 2
+    hide()
 
 func _physics_process(delta):
     reloading -= delta
@@ -43,12 +44,12 @@ func _physics_process(delta):
     position.y = clamp(position.y, 0, screen_size.y)
 
 func on_boulder_collision(boulder):
-    print("Spaceship crashed!")
-    emit_signal("spaceship_crashed", self, 1)
+    print("Spaceship crashed with boulder: " + str(boulder.get_instance_id()))
+    emit_signal("spaceship_crashed")
     queue_free()
 
 func _fire_bullet():
-    if reloading <= 0.0:
+    if reloading <= 0.0 && visible:
         reloading = reload_time
         var bullet = Bullet.instance()
         bullet.show()

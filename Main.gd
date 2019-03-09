@@ -1,6 +1,7 @@
 extends Node2D
 
 const MaxSpawned = 5
+const Spaceship = preload("res://Spaceship.tscn")
 const Boulder1 = preload("res://Boulder 1.tscn")
 const Boulder2 = preload("res://Boulder 2.tscn")
 const Boulder3 = preload("res://Boulder 3.tscn")
@@ -52,10 +53,22 @@ func generate_background():
 func new_game():
     score = 0
     current_spawned = 0
+    $HUD.update_score(score)
+    $HUD.show_message("Get Ready")
+
+    var spaceship = Spaceship.instance()
+    spaceship.connect("spaceship_crashed", self, "_on_spaceship_crashed")
+    add_child(spaceship)
+    spaceship.show()
+
+    $BoulderTimer.start()
 
 func game_over():
-    pass
-
+    $BoulderTimer.stop()
+    for boulder in get_tree().get_nodes_in_group("boulders"):
+        boulder.queue_free()
+    $HUD.show_game_over()
+    
 func _on_BoulderTimer_timeout():
     if current_spawned < MaxSpawned:
         # Choose a random location on Path2D.
@@ -76,6 +89,9 @@ func _on_BoulderTimer_timeout():
         
         current_spawned += 1
 
+func _on_spaceship_crashed():
+    game_over()
+
 func _on_Boulder_boulder_removed():
     current_spawned -= 1
   
@@ -95,6 +111,18 @@ func _on_Boulder_boulder_hit(boulder, type):
                 _add_boulder(new_boulder, boulder, x)
             4:
                 pass
+
+    match type:
+        1:
+            score += 100
+        2:
+            score += 150
+        3:
+            score += 200
+        4:
+            score += 250
+
+    $HUD.update_score(score)
 
 func _add_boulder(new_boulder, boulder, x):
     new_boulder.position = boulder.position
